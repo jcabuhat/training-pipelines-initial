@@ -45,7 +45,9 @@ app_names=`(cf curl $apps_url | jq -r '.resources[].entity.name')`
 for name in $app_names; do
     if [ "$name" != "$app_name" ]
     then
-	  cf unmap-route $name $CF_DOMAIN --hostname $CF_HOSTNAME
+      cf unmap-route $name $CF_DOMAIN --hostname $CF_HOSTNAME
+      echo "unmapping route: $name from $CF_DOMAIN / $CF_HOSTNAME"
       cf delete $name -f
+      echo "deleting app $name"
     fi
 done
